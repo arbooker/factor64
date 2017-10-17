@@ -16,8 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <inttypes.h>
 
 int initfactor64(const char *);
 int factor64(uint64_t *,int *,uint64_t);
@@ -47,17 +46,17 @@ int main(int argc,char *argv[]) {
 	for (i=1;;) {
 		if (argc <= 1) { // no args, read from stdin
 			if (!fgets(line,sizeof(line),stdin)) break;
-			n = (uint64_t)strtoull(line,NULL,10);
+			if (sscanf(line,"%"SCNu64,&n) != 1) continue;
 		} else {
 			if (i >= argc) break;
-			n = (uint64_t)strtoull(argv[i++],NULL,10);
+			if (sscanf(argv[i++],"%"SCNu64,&n) != 1) continue;
 		}
 		k = factor64(p,e,n);
 		sort_factors(k,p,e);
-		printf("%llu:",(unsigned long long)n);
+		printf("%"PRIu64":",n);
 		for (j=0;j<k;j++)
 			while (--e[j] >= 0)
-				printf(" %llu",(unsigned long long)p[j]);
+				printf(" %"PRIu64,p[j]);
 		printf("\n");
 	}
 
