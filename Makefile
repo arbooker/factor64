@@ -8,6 +8,7 @@ factor.bin: makefactortable
 	wget https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
 	unxz factor64_data.xz
 	./makefactortable >> factor64_data
+	chmod 444 factor64_data
 	mv factor64_data factor.bin
 
 makefactortable: makefactortable.c
