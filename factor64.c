@@ -132,21 +132,21 @@ static inline uint64_t addmod(uint64_t a,uint64_t b,uint64_t n) {
 }
 
 static inline uint64_t mulredc63(uint64_t x,uint64_t y,uint64_t n,uint64_t npi) {
-  union { __uint128_t q; uint64_t l[2]; } u;
+	union { __uint128_t q; uint64_t l[2]; } u;
 
-  u.q = (__uint128_t)x*y;
+	u.q = (__uint128_t)x*y;
 	u.q += (u.l[0]*npi)*(__uint128_t)n;
 	u.l[1] -= n;
 	return u.l[1]+(n&((int64_t)u.l[1]>>63));
 }
 
 static inline uint64_t mulredc64(uint64_t x,uint64_t y,uint64_t n,uint64_t npi) {
-  union { __uint128_t q; uint64_t l[2]; } u;
+	union { __uint128_t q; uint64_t l[2]; } u;
 	__uint128_t t;
 
-  u.q = (__uint128_t)x*y;
+	u.q = (__uint128_t)x*y;
 	t = (u.l[0]*npi)*(__uint128_t)n;
-  u.q += t;
+	u.q += t;
 	return (u.q < t || u.l[1] >= n) ? u.l[1]-n : u.l[1];
 }
 #endif
