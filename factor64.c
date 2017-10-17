@@ -51,6 +51,9 @@ int initfactor64(const char *db) {
 	return 0;
 }
 
+#if defined(__x86_64__) || defined(_M_X64)
+// for x86 we optimize the low level arithmetic in assembly language
+
 // |a-b|
 static inline uint64_t absdiff(uint64_t a,uint64_t b) {
 	uint64_t t = b-a;
@@ -117,11 +120,40 @@ static inline uint64_t mulredc63(uint64_t a,uint64_t b,uint64_t n,uint64_t npi) 
 	);
   return a;
 }
+#else
+// plain C versions to support non-x86 processors
+static inline uint64_t absdiff(uint64_t a,uint64_t b) {
+	return (a < b) ? b-a : a-b;
+}
+
+static inline uint64_t addmod(uint64_t a,uint64_t b,uint64_t n) {
+	a += b;
+	return (a < b || a >= n) ? a-n : a;
+}
+
+static inline uint64_t mulredc63(uint64_t x,uint64_t y,uint64_t n,uint64_t npi) {
+  union { __uint128_t q; uint64_t l[2]; } u;
+
+  u.q = (__uint128_t)x*y;
+	u.q += (u.l[0]*npi)*(__uint128_t)n;
+	u.l[1] -= n;
+	return u.l[1]+(n&((int64_t)u.l[1]>>63));
+}
+
+static inline uint64_t mulredc64(uint64_t x,uint64_t y,uint64_t n,uint64_t npi) {
+  union { __uint128_t q; uint64_t l[2]; } u;
+	__uint128_t t;
+
+  u.q = (__uint128_t)x*y;
+	t = (u.l[0]*npi)*(__uint128_t)n;
+  u.q += t;
+	return (u.q < t || u.l[1] >= n) ? u.l[1]-n : u.l[1];
+}
+#endif
 
 // compute -n^{-1} mod 2^64 by Newton's method
 static inline uint64_t montgomery_inverse(uint64_t n) {
-	uint32_t k;
-	k = (3*n)^12; // correct mod 2^4
+	uint32_t k = (3*n)^12; // correct mod 2^4
 	k *= 2+k*(uint32_t)n; k *= 2+k*(uint32_t)n; k *= 2+k*(uint32_t)n;
 	return (uint64_t)k*(2+(uint64_t)k*n);
 }
