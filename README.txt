@@ -4,7 +4,9 @@ software, distributed under the terms of the GPLv3. For more information,
 see the file LICENSE.txt.
 
 CREDITS: Thanks to Ben Buhrow and Dana Jacobsen for contributing code
-and ideas.
+and ideas. The primality test relies on the list of 64-bit base-2 strong
+pseudoprimes computed by Jan Feitsma et al.; see
+http://www.janfeitsma.nl/math/psp2/index
 
 The library is supported by a data file (called factor.bin by default)
 that is downloaded in compressed form (about 846MB) and reconstituted at
@@ -19,7 +21,7 @@ int initfactor64(const char *filename);
 Initializes the data table pointed to by filename. The table uses about
 2.5GB of memory, but the file is accessed via memory mapping, so separate
 processes/threads will share a single copy. The return value is zero
-on success and a negative number if an error is encountered.
+on success and a negative number if an error occurs.
 
 int isprime64(uint64_t n);
 Returns 1 if n is prime, and 0 otherwise.
