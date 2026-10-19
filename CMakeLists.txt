@@ -6,16 +6,23 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_custom_command(
-    OUTPUT ${PROJECT_SOURCE_DIR}/lib/factor64.bin
+    OUTPUT ${PROJECT_SOURCE_DIR}/factor.bin.d/factor.bin
     DEPENDS ${PROJECT_SOURCE_DIR}/bin/makefactortable
-    COMMAND wget -nc -P ${PROJECT_SOURCE_DIR}/factor64_data https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
-    COMMAND unxz -k ${PROJECT_SOURCE_DIR}/factor64_data/factor64_data.xz
-    COMMAND ${PROJECT_SOURCE_DIR}/bin/makefactortable >> ${PROJECT_SOURCE_DIR}/factor64_data/factor64_data
-    COMMAND chmod 444 ${PROJECT_SOURCE_DIR}/factor64_data/factor64_data
-    COMMAND mv ${PROJECT_SOURCE_DIR}/factor64_data/factor64_data ${PROJECT_SOURCE_DIR}/lib/factor.bin
+    COMMAND wget https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/factor.bin.d
+    COMMAND unxz factor64_data.xz
+    COMMAND ${PROJECT_SOURCE_DIR}/bin/makefactortable >> factor64_data
+    COMMAND chmod 444 factor64_data
+    COMMAND mv factor64_data factor.bin
+)
+
+add_custom_target(
+    FACTOR_BIN ALL
+    DEPENDS ${PROJECT_SOURCE_DIR}/factor.bin.d/factor.bin
 )
 
 add_executable(makefactortable makefactortable.c)
 add_executable(sample sample.c)
-add_library(factor64 SHARED factor64.c ${PROJECT_SOURCE_DIR}/lib/factor64.bin)
-target_link_libraries(sample PRIVATE factor64)
+add_library(factor64 SHARED factor64.c)
+add_dependencies(factor64 FACTOR_BIN)
+target_link_libraries(sample PUBLIC factor64)
