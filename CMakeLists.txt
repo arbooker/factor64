@@ -8,8 +8,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_custom_command(
     OUTPUT ${PROJECT_SOURCE_DIR}/factor.bin.d/factor.bin
     DEPENDS ${PROJECT_SOURCE_DIR}/bin/makefactortable
-    COMMAND wget https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/factor.bin.d
+    COMMAND wget https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
     COMMAND unxz factor64_data.xz
     COMMAND ${PROJECT_SOURCE_DIR}/bin/makefactortable >> factor64_data
     COMMAND chmod 444 factor64_data
