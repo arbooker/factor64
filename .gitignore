@@ -1,4 +1,5 @@
 bin/*
 build/*
-factor.bin.d/*
+factor64_data.xz
+factor64_data
 lib/*
