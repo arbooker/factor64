@@ -18,8 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/mman.h>
 #include <fcntl.h>
+
+#ifdef _WIN32
+	#include "win32/mman.h"
+#else
+	#include <sys/mman.h>
+#endif /* _WIN32 */
 
 static uint64_t *pseudoprime_table;
 static int32_t *pseudoprime_index;
