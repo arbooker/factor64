@@ -1,5 +1,7 @@
-bin/*
 build/*
-factor64_data.xz
+factor.bin
 factor64_data
-lib/*
+factor64_data.xz
+factor64.o
+makefactortable
+sample
