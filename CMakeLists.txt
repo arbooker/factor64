@@ -43,11 +43,11 @@ endif()
 
 add_custom_target(
     FACTOR64_O
-    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.o
+    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.o FACTOR_BIN
 )
 
-add_executable(sample ${PROJECT_SOURCE_DIR}/factor64.o sample.c)
-add_dependencies(sample FACTOR64_O FACTOR_BIN)
+add_executable(sample sample.c)
+add_dependencies(sample FACTOR64_O)
 
 add_library(libfactor64 OBJECT IMPORTED GLOBAL)
 set_property(TARGET libfactor64 PROPERTY IMPORTED_OBJECTS ${PROJECT_SOURCE_DIR}/factor64.o)
