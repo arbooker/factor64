@@ -17,10 +17,10 @@ if(WIN32)
         OUTPUT ${PROJECT_SOURCE_DIR}/factor.bin
         DEPENDS ${PROJECT_SOURCE_DIR}/makefactortable
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        COMMAND curl https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
+        COMMAND curl -O https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
         COMMAND 7z x factor64_data.xz
         COMMAND makefactortable >> factor64_data
-        COMMAND icacls factor_data /grant *S-1-1-0:R
+        COMMAND icacls factor64_data /grant *S-1-1-0:R
         COMMAND move factor64_data factor.bin
     )
 else()
