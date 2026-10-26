@@ -14,7 +14,7 @@ else()
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         COMMAND wget https://people.maths.bris.ac.uk/~maarb/code/factor64_data.xz
         COMMAND unxz factor64_data.xz
-        COMMAND ${PROJECT_SOURCE_DIR}/bin/makefactortable >> factor64_data
+        COMMAND makefactortable >> factor64_data
         COMMAND chmod 444 factor64_data
         COMMAND mv factor64_data factor.bin
     )
