@@ -8,6 +8,18 @@ add_executable(makefactortable makefactortable.c)
 add_executable(sample sample.c)
 add_library(libfactor64 OBJECT IMPORTED GLOBAL)
 
+add_custom_target(
+    FACTOR64_O
+    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.o
+)
+
+add_custom_command(
+    OUTPUT ${PROJECT_SOURCE_DIR}/factor64.o
+    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.c
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    COMMAND gcc -O2 -march=native -c ${PROJECT_SOURCE_DIR}/factor64.c
+)
+
 if(WIN32)
     add_custom_command(
         OUTPUT ${PROJECT_SOURCE_DIR}/win32/mman.o
@@ -49,18 +61,6 @@ add_custom_target(
     DEPENDS ${PROJECT_SOURCE_DIR}/factor.bin
 )
 
-add_custom_command(
-    OUTPUT ${PROJECT_SOURCE_DIR}/factor64.o
-    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.c
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    COMMAND gcc -O2 -march=native -c ${PROJECT_SOURCE_DIR}/factor64.c
-)
-
-add_custom_target(
-    FACTOR64_O
-    DEPENDS ${PROJECT_SOURCE_DIR}/factor64.o FACTOR_BIN
-)
-
-add_dependencies(sample FACTOR64_O)
+add_dependencies(FACTOR64_O FACTOR_BIN)
 
 target_link_libraries(sample libfactor64)
