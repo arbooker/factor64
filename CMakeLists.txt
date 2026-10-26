@@ -68,5 +68,4 @@ endif()
 
 add_dependencies(sample FACTOR64_O)
 
-set_property(TARGET libfactor64 PROPERTY IMPORTED_OBJECTS ${PROJECT_SOURCE_DIR}/factor64.o)
 target_link_libraries(sample libfactor64)
