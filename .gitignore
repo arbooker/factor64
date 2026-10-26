@@ -4,5 +4,7 @@ factor64_data
 factor64_data.xz
 factor64.o
 makefactortable
+makefactortable.exe
 sample
+sample.exe
 win32/mman.o
