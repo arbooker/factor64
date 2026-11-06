@@ -13,9 +13,8 @@
 ]]
 
 cmake_minimum_required(VERSION 3.11.0)
-set(CMAKE_C_CSTANDARD C11)
 project(SAMPLE C)
-set(CMAKE_C_FLAGS "-O2 -Wall -Werror")
+add_compile_options("-O2")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 add_executable(makefactortable makefactortable.c)
@@ -24,6 +23,7 @@ add_library(factor64 factor64.c)
 if(WIN32)
     target_sources(factor64 PRIVATE win32/mman.c)
 endif()
+target_compile_options(factor64 PRIVATE "-O2" "-march=native")
 
 add_custom_command(
     OUTPUT ${PROJECT_SOURCE_DIR}/factor.bin
