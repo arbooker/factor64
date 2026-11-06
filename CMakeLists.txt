@@ -7,7 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_executable(makefactortable makefactortable.c)
 add_executable(sample sample.c)
 add_library(factor64 factor64.c)
-if(win32)
+if(WIN32)
     target_sources(factor64 PRIVATE win32/mman.c)
 endif()
 
