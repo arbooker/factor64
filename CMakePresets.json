@@ -1,0 +1,16 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "windows",
+            "displayName": "GCC 16.2.0 x86_64-w64-mingw32 (ucrt64)",
+            "description": "Using compilers: C = C:\\msys64\\ucrt64\\bin\\gcc.exe",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        }
+    ]
+}

@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define M ((uint64_t)1<<32)
 int main(void) {
+	FILE* f = fopen("factor64_data", "ab");
 	uint64_t n;
 	uint32_t k;
 	uint16_t *factor;
@@ -42,14 +43,15 @@ int main(void) {
 		else if (n % 13 == 0) r = -13;
 		else if (n % 17 == 0) r = -17;
 		else r = k++;
-		fwrite(&r,sizeof(r),1,stdout);
+		fwrite(&r,sizeof(r),1,f);
 	}
 			
 	for (n=1,k=0;n<M;n+=2)
 		if (n % 3 && n % 5 && n % 7 && n % 11 && n % 13 && n % 17) {
-			fwrite(&factor[n>>1],sizeof(factor[0]),1,stdout);
+			fwrite(&factor[n>>1],sizeof(factor[0]),1,f);
 			k++;
 		}
 
+	fclose(f);
 	return 0;
 }
