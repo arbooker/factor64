@@ -1,3 +1,17 @@
+#[[
+    GCC and Cmake are required to compile sample.c
+    7zip is also required on Windows. Remember to add it to the path!
+    To compile on Linux:
+        1. Make a `build` directory in the project root and open a terminal there
+        2. Run `cmake ..`
+        3. Run `cmake --build .`
+    To compile on Windows:
+        0. Install GCC using this guide: https://code.visualstudio.com/docs/cpp/config-mingw
+        1. Make a `build` directory in the project root and open a terminal there
+        2. Run `cmake .. --preset windows`
+        3. Run `cmake --build .`
+]]
+
 cmake_minimum_required(VERSION 3.11.0)
 set(CMAKE_C_CSTANDARD C11)
 project(SAMPLE C)
